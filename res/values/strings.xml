@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BluetoothPrinter</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="open_bluetooth">Scan</string>
+    <string name="print">Print</string>
+    <string name="close_bluetooth">Close</string>
+
+</resources>
