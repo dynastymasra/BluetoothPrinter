@@ -161,7 +161,7 @@ public class MainActivity extends Activity {
             outputStream = bluetoothSocket.getOutputStream();
             inputStream = bluetoothSocket.getInputStream();
 
-            listenFromData();
+//            listenFromData();
             actionBarStatus(2);
         } catch (Exception ex) {
             Toast.makeText(getApplicationContext(), "Open Bluetooth" + ex, Toast.LENGTH_SHORT).show();
@@ -179,19 +179,15 @@ public class MainActivity extends Activity {
             thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.e(TAG, "RUN");
                     while (!Thread.currentThread().isInterrupted() && !stopWorker) {
                         try {
-                            Log.e(TAG, "RUN");
                             int bytesAvailable = inputStream.available();
                             if (bytesAvailable > 0) {
-                                Log.e(TAG, "RUN");
                                 byte[] packetBytes = new byte[bytesAvailable];
                                 inputStream.read(packetBytes);
                                 for (int i = 0; i < bytesAvailable; i++) {
                                     byte b = packetBytes[i];
                                     if (b == delimiter) {
-                                        Log.e(TAG, "RUN IF");
                                         byte[] encodedBytes = new byte[readBufferPos];
                                         System.arraycopy(readBuffer, 0, encodedBytes, 0, encodedBytes.length);
                                         final String data = new String(encodedBytes, "US-ASCII");
@@ -204,7 +200,6 @@ public class MainActivity extends Activity {
                                             }
                                         });
                                     } else {
-                                        Log.e(TAG, "RUN ELSE");
                                         readBuffer[readBufferPos++] = b;
                                     }
                                 }
@@ -222,11 +217,17 @@ public class MainActivity extends Activity {
     }
 
     private void sendData() throws IOException {
+        PrinterCommandTranslator translator = new PrinterCommandTranslator();
         try {
             String msg = textPrint.getText().toString();
-            msg += "\n";
+            print(translator.toNormalRepeatTillEnd('-'));
+            print(translator.toNormalCenterAll("Example"));
+            print(translator.toNormalRepeatTillEnd('-'));
+            print(translator.toNormalLeft("Test : " + msg));
+            print(translator.toNormalTwoColumn2(12345, "C2"));
+            print(translator.toMiniLeft("TEST"));
+            print(translator.toNormalTwoColumn("C1", 12345));
 
-            outputStream.write(msg.getBytes());
             actionBarStatus(3);
         } catch (Exception e) {
             e.printStackTrace();
@@ -241,6 +242,14 @@ public class MainActivity extends Activity {
             bluetoothSocket.close();
             actionBarStatus(4);
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void print(byte[] cmd) {
+        try {
+            outputStream.write(cmd);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
