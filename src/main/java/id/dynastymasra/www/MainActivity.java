@@ -165,7 +165,7 @@ public class MainActivity extends Activity {
             outputStream = bluetoothSocket.getOutputStream();
             inputStream = bluetoothSocket.getInputStream();
 
-//            listenFromData();
+            listenFromData();
             actionBarStatus(2);
         } catch (Exception ex) {
             Toast.makeText(getApplicationContext(), "Open Bluetooth" + ex, Toast.LENGTH_SHORT).show();
@@ -231,7 +231,7 @@ public class MainActivity extends Activity {
             print(translator.toNormalTwoColumn2(12345, "C2"));
             print(translator.toMiniLeft("TEST"));
             print(translator.toNormalTwoColumn("C1", 12345));
-            convertImagetoByte();
+//            convertImagetoByte();
 
             actionBarStatus(3);
         } catch (Exception e) {
@@ -254,6 +254,7 @@ public class MainActivity extends Activity {
     private void print(byte[] cmd) {
         try {
             outputStream.write(cmd);
+            outputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
