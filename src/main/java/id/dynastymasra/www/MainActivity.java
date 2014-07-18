@@ -68,7 +68,7 @@ public class MainActivity extends Activity {
                 try {
                     openBluetooth();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Toast.makeText(MainActivity.this, "" + e, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -78,7 +78,7 @@ public class MainActivity extends Activity {
                 try {
                     closeBluetooth();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Toast.makeText(MainActivity.this, "" + e, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -88,7 +88,7 @@ public class MainActivity extends Activity {
                 try {
                     sendData();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Toast.makeText(MainActivity.this, "" + e, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -222,21 +222,17 @@ public class MainActivity extends Activity {
 
     private void sendData() throws IOException {
         PrinterCommandTranslator translator = new PrinterCommandTranslator();
-        try {
-            String msg = textPrint.getText().toString();
-            print(translator.toNormalRepeatTillEnd('-'));
-            print(translator.toNormalCenterAll("Example"));
-            print(translator.toNormalRepeatTillEnd('-'));
-            print(translator.toNormalLeft("Test : " + msg));
-            print(translator.toNormalTwoColumn2(12345, "C2"));
-            print(translator.toMiniLeft("TEST"));
-            print(translator.toNormalTwoColumn("C1", 12345));
+        String msg = textPrint.getText().toString();
+        print(translator.toNormalRepeatTillEnd('-'));
+        print(translator.toNormalCenterAll("Example"));
+        print(translator.toNormalRepeatTillEnd('-'));
+        print(translator.toNormalLeft("Test : " + msg));
+        print(translator.toNormalTwoColumn2(12345, "C2"));
+        print(translator.toMiniLeft("TEST"));
+        print(translator.toNormalTwoColumn("C1", 12345));
 //            convertImagetoByte();
 
-            actionBarStatus(3);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        actionBarStatus(3);
     }
 
     void closeBluetooth() throws IOException {
